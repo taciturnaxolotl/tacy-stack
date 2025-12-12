@@ -59,7 +59,7 @@ async function main() {
 			const source = join(templateDir, dotfile);
 			const dest = join(targetDir, dotfile);
 			if (existsSync(source)) {
-				await $`cp ${source} ${dest}`.quiet();
+				await Bun.write(dest, Bun.file(source));
 			}
 		}
 
