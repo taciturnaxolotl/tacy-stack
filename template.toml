@@ -1,0 +1,13 @@
+# Bun template metadata
+[template]
+name = "tacy-stack"
+description = "Minimal full-stack starter with Bun, Lit, Drizzle ORM, and Passkeys"
+author = "Kieran K"
+
+[hooks]
+# Commands to run after project initialization
+postinstall = [
+  "bun install",
+  "cp .env.example .env",
+  "bun run db:push"
+]

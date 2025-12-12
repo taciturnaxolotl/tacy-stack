@@ -1,0 +1,4 @@
+# Templates that should be processed
+*.ts linguist-detectable=true
+*.html linguist-detectable=true
+*.css linguist-detectable=true

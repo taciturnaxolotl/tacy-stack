@@ -1,8 +1,11 @@
 {
 	"name": "tacy-stack",
+	"version": "1.0.0",
 	"module": "src/index.ts",
 	"type": "module",
-	"private": true,
+	"bin": {
+		"tacy-stack": "./cli.ts"
+	},
 	"scripts": {
 		"dev": "bun run src/index.ts --hot",
 		"test": "NODE_ENV=test bun test",

@@ -4,16 +4,20 @@ This is (in my very biased opinion) the absolute best and most enjoyable way to 
 
 It uses Lit, Bun, and Drizzle as the main stack and they all work together to make a wonderful combo.
 
-## How do I hack on it?
-
-### Development
-
-Getting started is super straightforward:
+## Quick Start
 
 ```bash
-bun install
-cp .env.example .env
-bun run db:push
+bunx tacy-stack
+```
+
+The CLI will guide you through creating a new project with an interactive prompt.
+
+**Manual setup:**
+
+```bash
+git clone <this-repo> my-app
+cd my-app
+bun run setup
 bun dev
 ```
 
