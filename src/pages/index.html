@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tacy Stack</title>
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🥞</text></svg>"
+		/>
+		<link rel="stylesheet" href="../styles/main.css" />
+		<link rel="stylesheet" href="../styles/index.css" />
+	</head>
+
+	<body>
+		<header>
+			<div class="header-content">
+				<a href="/" class="site-title"> 🥞 Tacy Stack </a>
+				<auth-component></auth-component>
+			</div>
+		</header>
+
+		<main>
+			<h1 class="hero-title">Tacy Stack</h1>
+			<p class="hero-subtitle">
+				The best way to build detailed web apps on top of Bun
+			</p>
+
+			<counter-component count="0"></counter-component>
+
+			<h2>Features</h2>
+			<p>
+				Passkey authentication, user-specific data persistence, reactive UI with
+				Lit web components, fast development with Bun and hot module reloading,
+				type-safe database queries with Drizzle ORM, and a clean, minimal design
+				system.
+			</p>
+		</main>
+
+		<script type="module" src="../components/auth.ts"></script>
+		<script type="module" src="../components/counter.ts"></script>
+		<script type="module">
+			// Load user's counter value and set disabled state
+			async function loadCounter() {
+				try {
+					const authResponse = await fetch("/api/auth/me");
+					const counter = document.querySelector("counter-component");
+
+					if (authResponse.ok) {
+						// User is logged in, load their counter
+						const response = await fetch("/api/counter");
+						if (response.ok) {
+							const data = await response.json();
+							if (counter) {
+								counter.count = data.count;
+								counter.disabled = false;
+							}
+						}
+					} else {
+						// User not logged in, disable counter
+						if (counter) {
+							counter.disabled = true;
+							counter.count = 0;
+						}
+					}
+				} catch (error) {
+					console.error("Failed to load counter:", error);
+					const counter = document.querySelector("counter-component");
+					if (counter) {
+						counter.disabled = true;
+					}
+				}
+			}
+
+			loadCounter();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,26 @@
+# Bun
+node_modules/
+bun.lockb
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+drizzle/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
