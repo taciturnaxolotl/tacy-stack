@@ -7,7 +7,7 @@ It uses Lit, Bun, and Drizzle as the main stack and they all work together to ma
 ## Quick Start
 
 ```bash
-bunx tacy-stack
+bunx tacy-stack@latest
 ```
 
 The CLI will guide you through creating a new project with an interactive prompt.

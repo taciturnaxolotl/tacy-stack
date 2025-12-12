@@ -52,14 +52,22 @@ async function main() {
 		s.start("Copying template files");
 		await $`cp -r ${templateDir}/* ${targetDir}/`.quiet();
 		
-		// Copy dotfiles
-		try {
-			await $`cp ${templateDir}/.env.example ${targetDir}/.env.example`.quiet();
-			await $`cp ${templateDir}/.gitignore ${targetDir}/.gitignore`.quiet();
-			await $`cp ${templateDir}/.gitattributes ${targetDir}/.gitattributes`.quiet();
-		} catch {
-			// Some dotfiles might not exist
+		// Copy dotfiles explicitly
+		const dotfiles = [".env.example", ".gitignore", ".gitattributes"];
+		for (const dotfile of dotfiles) {
+			const source = join(templateDir, dotfile);
+			const dest = join(targetDir, dotfile);
+			if (existsSync(source)) {
+				await $`cp ${source} ${dest}`.quiet();
+			}
 		}
+		
+		// Copy .github directory if it exists
+		const githubDir = join(templateDir, ".github");
+		if (existsSync(githubDir)) {
+			await $`cp -r ${githubDir} ${targetDir}/.github`.quiet();
+		}
+		
 		await setTimeout(200);
 		s.stop("Copied template files");
 		
