@@ -286,7 +286,8 @@ export class AuthComponent extends LitElement {
 			// Reload to update counter
 			window.location.reload();
 		} catch (error) {
-			this.error = error instanceof Error ? error.message : "Registration failed";
+			this.error =
+				error instanceof Error ? error.message : "Registration failed";
 		} finally {
 			this.isSubmitting = false;
 		}
@@ -309,8 +310,9 @@ export class AuthComponent extends LitElement {
 
 		return html`
 			<div class="auth-container">
-				${this.user
-					? html`
+				${
+					this.user
+						? html`
 							<button class="auth-button" @click=${this.handleLogout}>
 								<div class="user-info">
 									<img
@@ -322,13 +324,15 @@ export class AuthComponent extends LitElement {
 								</div>
 							</button>
 						`
-					: html`
+						: html`
 							<button class="auth-button" @click=${() => (this.showModal = true)}>
 								Sign In
 							</button>
-						`}
-				${this.showModal
-					? html`
+						`
+				}
+				${
+					this.showModal
+						? html`
 							<div class="modal-overlay" @click=${() => {
 								this.showModal = false;
 								this.showRegisterForm = false;
@@ -336,15 +340,18 @@ export class AuthComponent extends LitElement {
 								<div class="modal" @click=${(e: Event) => e.stopPropagation()}>
 									<h2>Welcome</h2>
 									${this.error ? html`<div class="error">${this.error}</div>` : ""}
-									${!this.passkeySupported
-										? html`
+									${
+										!this.passkeySupported
+											? html`
 												<div class="error">
 													Passkeys are not supported in this browser.
 												</div>
 											`
-										: ""}
-									${this.showRegisterForm
-										? html`
+											: ""
+									}
+									${
+										this.showRegisterForm
+											? html`
 												<div class="form-group">
 													<label for="username">Username</label>
 													<input
@@ -353,7 +360,9 @@ export class AuthComponent extends LitElement {
 														placeholder="Choose a username"
 														.value=${this.username}
 														@input=${(e: Event) =>
-															(this.username = (e.target as HTMLInputElement).value)}
+															(this.username = (
+																e.target as HTMLInputElement
+															).value)}
 														?disabled=${this.isSubmitting}
 													/>
 												</div>
@@ -371,15 +380,17 @@ export class AuthComponent extends LitElement {
 													</button>
 													<button
 														@click=${this.handleRegister}
-														?disabled=${this.isSubmitting ||
-														!this.username.trim() ||
-														!this.passkeySupported}
+														?disabled=${
+															this.isSubmitting ||
+															!this.username.trim() ||
+															!this.passkeySupported
+														}
 													>
 														Register
 													</button>
 												</div>
 											`
-										: html`
+											: html`
 												<div class="button-group">
 													<button
 														@click=${this.handleLogin}
@@ -395,11 +406,13 @@ export class AuthComponent extends LitElement {
 														Register
 													</button>
 												</div>
-											`}
+											`
+									}
 								</div>
 							</div>
 						`
-					: ""}
+						: ""
+				}
 			</div>
 		`;
 	}

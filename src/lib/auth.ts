@@ -29,13 +29,15 @@ export function createSession(
 	const sessionId = crypto.randomUUID();
 	const expiresAt = Math.floor(Date.now() / 1000) + SESSION_DURATION;
 
-	db.insert(sessions).values({
-		id: sessionId,
-		user_id: userId,
-		ip_address: ipAddress ?? null,
-		user_agent: userAgent ?? null,
-		expires_at: new Date(expiresAt * 1000),
-	}).run();
+	db.insert(sessions)
+		.values({
+			id: sessionId,
+			user_id: userId,
+			ip_address: ipAddress ?? null,
+			user_agent: userAgent ?? null,
+			expires_at: new Date(expiresAt * 1000),
+		})
+		.run();
 
 	return sessionId;
 }
@@ -67,7 +69,11 @@ export function getUserBySession(sessionId: string): User | null {
 	const session = getSession(sessionId);
 	if (!session) return null;
 
-	const user = db.select().from(users).where(eq(users.id, session.user_id)).get();
+	const user = db
+		.select()
+		.from(users)
+		.where(eq(users.id, session.user_id))
+		.get();
 
 	if (!user) return null;
 
@@ -81,7 +87,11 @@ export function getUserBySession(sessionId: string): User | null {
 }
 
 export function getUserByUsername(username: string): User | null {
-	const user = db.select().from(users).where(eq(users.username, username)).get();
+	const user = db
+		.select()
+		.from(users)
+		.where(eq(users.username, username))
+		.get();
 
 	if (!user) return null;
 
@@ -98,7 +108,10 @@ export function deleteSession(sessionId: string): void {
 	db.delete(sessions).where(eq(sessions.id, sessionId)).run();
 }
 
-export async function createUser(username: string, name?: string): Promise<User> {
+export async function createUser(
+	username: string,
+	name?: string,
+): Promise<User> {
 	// Generate deterministic avatar from username
 	const encoder = new TextEncoder();
 	const data = encoder.encode(username.toLowerCase());

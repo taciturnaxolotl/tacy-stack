@@ -155,20 +155,28 @@ export async function verifyAndCreatePasskey(
 	// Store the passkey
 	const passkeyId = crypto.randomUUID();
 	const credentialIdBase64 = credential.id; // Already base64url in v13
-	const publicKeyBase64 = Buffer.from(credential.publicKey).toString("base64url");
+	const publicKeyBase64 = Buffer.from(credential.publicKey).toString(
+		"base64url",
+	);
 	const transports = response.response.transports?.join(",") || null;
 
-	db.insert(passkeys).values({
-		id: passkeyId,
-		user_id: userId,
-		credential_id: credentialIdBase64,
-		public_key: publicKeyBase64,
-		counter: credential.counter,
-		transports,
-		name: null,
-	}).run();
+	db.insert(passkeys)
+		.values({
+			id: passkeyId,
+			user_id: userId,
+			credential_id: credentialIdBase64,
+			public_key: publicKeyBase64,
+			counter: credential.counter,
+			transports,
+			name: null,
+		})
+		.run();
 
-	const passkey = db.select().from(passkeys).where(eq(passkeys.id, passkeyId)).get();
+	const passkey = db
+		.select()
+		.from(passkeys)
+		.where(eq(passkeys.id, passkeyId))
+		.get();
 
 	if (!passkey) {
 		throw new Error("Failed to create passkey");
@@ -307,10 +315,7 @@ export function getPasskeysForUser(userId: number): Passkey[] {
  * Delete a passkey
  */
 export function deletePasskey(passkeyId: string, userId: number): boolean {
-	const result = db
-		.delete(passkeys)
-		.where(eq(passkeys.id, passkeyId))
-		.run();
+	const result = db.delete(passkeys).where(eq(passkeys.id, passkeyId)).run();
 
 	return result.changes > 0;
 }

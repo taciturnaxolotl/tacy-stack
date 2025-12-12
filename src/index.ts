@@ -37,9 +37,12 @@ Bun.serve({
 				try {
 					const sessionId = getSessionFromRequest(req);
 					if (!sessionId) {
-						return new Response(JSON.stringify({ error: "Not authenticated" }), {
-							status: 401,
-						});
+						return new Response(
+							JSON.stringify({ error: "Not authenticated" }),
+							{
+								status: 401,
+							},
+						);
 					}
 
 					const user = getUserBySession(sessionId);
@@ -70,9 +73,12 @@ Bun.serve({
 					const username = url.searchParams.get("username");
 
 					if (!username) {
-						return new Response(JSON.stringify({ error: "Username required" }), {
-							status: 400,
-						});
+						return new Response(
+							JSON.stringify({ error: "Username required" }),
+							{
+								status: 400,
+							},
+						);
 					}
 
 					const existing = getUserByUsername(username);
@@ -105,7 +111,9 @@ Bun.serve({
 
 					if (!username || !credential || !challenge) {
 						return new Response(
-							JSON.stringify({ error: "Username, credential, and challenge required" }),
+							JSON.stringify({
+								error: "Username, credential, and challenge required",
+							}),
 							{ status: 400 },
 						);
 					}
@@ -180,9 +188,12 @@ Bun.serve({
 					const username = url.searchParams.get("username");
 
 					if (!username) {
-						return new Response(JSON.stringify({ error: "Username required" }), {
-							status: 400,
-						});
+						return new Response(
+							JSON.stringify({ error: "Username required" }),
+							{
+								status: 400,
+							},
+						);
 					}
 
 					// Create temporary user object for registration options
@@ -209,8 +220,6 @@ Bun.serve({
 				}
 			},
 		},
-
-
 
 		"/api/auth/passkey/authenticate/options": {
 			GET: async (req) => {
@@ -244,10 +253,16 @@ Bun.serve({
 						);
 					}
 
-					const { userId } = await verifyAndAuthenticatePasskey(credential, challenge);
+					const { userId } = await verifyAndAuthenticatePasskey(
+						credential,
+						challenge,
+					);
 
 					const user = getUserBySession(
-						createSession(userId, req.headers.get("x-forwarded-for") || undefined),
+						createSession(
+							userId,
+							req.headers.get("x-forwarded-for") || undefined,
+						),
 					);
 
 					if (!user) {
@@ -288,7 +303,8 @@ Bun.serve({
 				} catch (error) {
 					return new Response(
 						JSON.stringify({
-							error: error instanceof Error ? error.message : "Not authenticated",
+							error:
+								error instanceof Error ? error.message : "Not authenticated",
 						}),
 						{ status: 401 },
 					);
@@ -308,7 +324,8 @@ Bun.serve({
 				} catch (error) {
 					return new Response(
 						JSON.stringify({
-							error: error instanceof Error ? error.message : "Not authenticated",
+							error:
+								error instanceof Error ? error.message : "Not authenticated",
 						}),
 						{ status: 401 },
 					);
@@ -328,7 +345,8 @@ Bun.serve({
 				} catch (error) {
 					return new Response(
 						JSON.stringify({
-							error: error instanceof Error ? error.message : "Not authenticated",
+							error:
+								error instanceof Error ? error.message : "Not authenticated",
 						}),
 						{ status: 401 },
 					);
@@ -348,7 +366,8 @@ Bun.serve({
 				} catch (error) {
 					return new Response(
 						JSON.stringify({
-							error: error instanceof Error ? error.message : "Not authenticated",
+							error:
+								error instanceof Error ? error.message : "Not authenticated",
 						}),
 						{ status: 401 },
 					);
